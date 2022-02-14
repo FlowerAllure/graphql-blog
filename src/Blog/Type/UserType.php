@@ -9,6 +9,7 @@ namespace FlowerAllure\GraphqlLearn\Blog\Type;
 
 use FlowerAllure\GraphqlLearn\Blog\Types;
 use GraphQL\Type\Definition\ObjectType;
+use GraphQL\Type\Definition\ResolveInfo;
 
 class UserType extends ObjectType
 {
@@ -27,6 +28,9 @@ class UserType extends ObjectType
                     'type' => Types::string(),
                 ],
             ],
+            //'resolveField' => function ($user, $args, $context, ResolveInfo $info) {
+            //    return $user->{$info->fieldName};
+            //},
         ];
 
         parent::__construct($config);

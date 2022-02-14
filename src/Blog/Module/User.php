@@ -13,13 +13,11 @@ class User
 {
     public ?int $id = null;
 
-    public string $email = '';
-
     public string $firstName = '';
 
     public string $lastName = '';
 
-    public ?bool $hasPhoto = null;
+    public string $email = '';
 
     public function __construct(array $data)
     {

@@ -18,11 +18,11 @@ try {
     DataSource::init();
 
     $schema = new Schema([
-        'query' => new QueryType(),
-//        'typeLoader' => static fn (string $name): Type => Types::byTypeName($name),
+        'query' => new QueryType()
     ]);
 
     $appContext = new stdClass();
+    $appContext->viewer = DataSource::findUser(1);
 
     $server = new StandardServer([
         'schema' => $schema,
@@ -31,5 +31,6 @@ try {
 
     $server->handleRequest();
 } catch (Throwable $error) {
+    var_dump($error->getMessage());
     StandardServer::send500Error($error);
 }

@@ -8,23 +8,20 @@
 namespace FlowerAllure\GraphqlLearn\Blog;
 
 use Closure;
+use Exception;
 use FlowerAllure\GraphqlLearn\Blog\Type\Scalar\EmailType;
 use FlowerAllure\GraphqlLearn\Blog\Type\UserType;
 use GraphQL\Type\Definition\ScalarType;
 use GraphQL\Type\Definition\Type;
+use JetBrains\PhpStorm\Pure;
 
-class Types
+final class Types
 {
     private static array $types = [];
 
-    public static function boolean(): ScalarType
+    private static function get(string $classname): Closure
     {
-        return Type::boolean();
-    }
-
-    public static function float(): ScalarType
-    {
-        return Type::float();
+        return static fn (): Type => new $classname;
     }
 
     public static function id(): ScalarType
@@ -32,39 +29,20 @@ class Types
         return Type::id();
     }
 
-    public static function int(): ScalarType
-    {
-        return Type::int();
-    }
-
     public static function string(): ScalarType
     {
         return Type::string();
     }
 
-    public static function email(): callable
-    {
-        return self::get(EmailType::class);
-    }
-
+    #[Pure]
     public static function user(): callable
     {
         return self::get(UserType::class);
     }
 
-    public static function get(string $classname): Closure
+    #[Pure]
+    public static function email(): callable
     {
-        return static fn (): string => self::byClassName($classname);
-    }
-
-    public static function byClassName(string $classname): string
-    {
-        $parts = explode('\\', $classname);
-        $cacheName = strtolower(preg_replace('/Type$/', '', $parts[count($parts) - 1]));
-        if (!isset(self::$types[$cacheName])) {
-            return self::$types[$cacheName] = new $classname();
-        }
-
-        return self::$types[$cacheName];
+        return self::get(EmailType::class);
     }
 }

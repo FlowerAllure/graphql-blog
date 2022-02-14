@@ -7,6 +7,10 @@
 
 namespace FlowerAllure\GraphqlLearn\Blog\Type;
 
+use FlowerAllure\GraphqlLearn\Blog\Data\DataSource;
+use FlowerAllure\GraphqlLearn\Blog\Module\User;
+use FlowerAllure\GraphqlLearn\Blog\Types;
+use GraphQL\Type\Definition\NonNull;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
@@ -18,11 +22,18 @@ class QueryType extends ObjectType
         $config = [
             'name' => 'Query',
             'fields' => [
-                'hello' => Type::string(),
+                'hello' => Types::string(),
+                'world' => Types::string(),
+                'viewer' => [
+                    'type' => Types::user()
+                ],
+                'user' => [
+                    'type' => Types::user(),
+                    'args' => [
+                        'id' => Type::nonNull(Types::id())
+                    ]
+                ]
             ],
-            // 'resolveField' => function ($rootValue, $args, $context, ResolveInfo $info): mixed {
-            //    return $this->{$info->fieldName}($rootValue, $args, $context, $info);
-            // },
             'resolveField' => fn ($rootValue, $args, $context, ResolveInfo $info): mixed => $this->{$info->fieldName}($rootValue, $args, $context, $info),
         ];
 
@@ -31,6 +42,21 @@ class QueryType extends ObjectType
 
     public function hello(): string
     {
-        return 'Your graphql-php endpoint is ready! Use a GraphQL client to explore the schema.';
+        return 'Hello';
+    }
+
+    public function world(): string
+    {
+        return 'World!';
+    }
+
+    public function viewer($rootValue, array $args, $context): User
+    {
+        return $context->viewer;
+    }
+
+    public function user($rootValue, array $args): User
+    {
+        return DataSource::findUser((int) $args['id']);
     }
 }

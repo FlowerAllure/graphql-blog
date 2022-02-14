@@ -7,7 +7,6 @@
 
 namespace FlowerAllure\GraphqlLearn\Blog\Data;
 
-use FlowerAllure\GraphqlLearn\Blog\Module\Image;
 use FlowerAllure\GraphqlLearn\Blog\Module\User;
 
 class DataSource
@@ -41,16 +40,5 @@ class DataSource
     public static function findUser(int $id): ?User
     {
         return self::$users[$id] ?? null;
-    }
-
-    public static function getUserPhoto(int $userId, string $size): Image
-    {
-        return new Image([
-            'id' => $userId,
-            'type' => Image::TYPE_USER_PIC,
-            'size' => $size,
-            'width' => rand(100, 200),
-            'height' => rand(100, 200),
-        ]);
     }
 }
