@@ -1,9 +1,13 @@
 <?php
 
+/*
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace FlowerAllure\GraphqlLearn\Blog;
 
-
+use Closure;
 use FlowerAllure\GraphqlLearn\Blog\Type\Scalar\EmailType;
 use FlowerAllure\GraphqlLearn\Blog\Type\UserType;
 use GraphQL\Type\Definition\ScalarType;
@@ -48,40 +52,19 @@ class Types
         return self::get(UserType::class);
     }
 
-    public static function get(string $classname)
+    public static function get(string $classname): Closure
     {
-        return static fn() => self::byClassName($classname);
+        return static fn (): string => self::byClassName($classname);
     }
 
-    public static function byClassName(string $classname)
+    public static function byClassName(string $classname): string
     {
         $parts = explode('\\', $classname);
-        $cacheName = strtolower(preg_replace('~Type$~', '', $parts[count($parts) - 1]));
+        $cacheName = strtolower(preg_replace('/Type$/', '', $parts[count($parts) - 1]));
         if (!isset(self::$types[$cacheName])) {
             return self::$types[$cacheName] = new $classname();
         }
 
         return self::$types[$cacheName];
-    }
-
-    public static function byTypeName(string $shortName): Type
-    {
-        $cacheName = strtolower($shortName);
-        $type = null;
-
-        if (isset(self::$types[$cacheName])) {
-            return self::$types[$cacheName];
-        }
-
-        $method = lcfirst($shortName);
-        if (method_exists(self::class, $method)) {
-            $type = self::{$method}();
-        }
-
-        if (! $type) {
-            throw new \Exception('Unknown graphql type: ' . $shortName);
-        }
-
-        return $type;
     }
 }

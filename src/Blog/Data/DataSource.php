@@ -1,8 +1,11 @@
 <?php
 
+/*
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace FlowerAllure\GraphqlLearn\Blog\Data;
-
 
 use FlowerAllure\GraphqlLearn\Blog\Module\Image;
 use FlowerAllure\GraphqlLearn\Blog\Module\User;
@@ -11,7 +14,7 @@ class DataSource
 {
     private static array $users = [];
 
-    public static function init()
+    public static function init(): void
     {
         self::$users = [
             1 => new User([

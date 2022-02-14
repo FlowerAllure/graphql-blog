@@ -1,10 +1,16 @@
 <?php
-require_once "../vendor/autoload.php";
+
+/*
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
+require_once '../vendor/autoload.php';
 
 use GraphQL\GraphQL;
-use GraphQL\Type\Schema;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Schema;
 
 $queryType = new ObjectType([
     'name' => 'Query',
@@ -15,20 +21,19 @@ $queryType = new ObjectType([
                 'message' => Type::nonNull(Type::string()),
             ],
             'resolve' => function ($root, $args) {
-                return $root['prefix'] . $args['message'];
-            }
+                return $root['prefix'].$args['message'];
+            },
         ],
         'id' => [
-            "type" => Type::id(),
-            "description" => "随机数",
-            "resolve" => static fn() => mt_rand(100, 1000)
-        ]
+            'type' => Type::id(),
+            'description' => '随机数',
+            'resolve' => static fn () => mt_rand(100, 1000),
+        ],
     ],
 ]);
 
-
 $schema = new Schema([
-    'query' => $queryType
+    'query' => $queryType,
 ]);
 
 $input = json_decode(file_get_contents('php://input'), true);
@@ -42,9 +47,9 @@ try {
     $output = [
         'errors' => [
             [
-                'message' => $e->getMessage()
-            ]
-        ]
+                'message' => $e->getMessage(),
+            ],
+        ],
     ];
 }
 header('Content-Type: application/json');
