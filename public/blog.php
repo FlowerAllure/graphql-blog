@@ -7,9 +7,7 @@
 
 use FlowerAllure\GraphqlLearn\Blog\Data\DataSource;
 use FlowerAllure\GraphqlLearn\Blog\Type\QueryType;
-use FlowerAllure\GraphqlLearn\Blog\Types;
 use GraphQL\Server\StandardServer;
-use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
 
 require_once '../vendor/autoload.php';
@@ -18,7 +16,7 @@ try {
     DataSource::init();
 
     $schema = new Schema([
-        'query' => new QueryType()
+        'query' => new QueryType(),
     ]);
 
     $appContext = new stdClass();

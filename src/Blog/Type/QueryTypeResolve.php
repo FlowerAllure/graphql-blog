@@ -11,29 +11,23 @@ use FlowerAllure\GraphqlLearn\Blog\Data\DataSource;
 use FlowerAllure\GraphqlLearn\Blog\Module\User;
 use FlowerAllure\GraphqlLearn\Blog\Types;
 use GraphQL\Type\Definition\ObjectType;
-use GraphQL\Type\Definition\ResolveInfo;
-use GraphQL\Type\Definition\Type;
 
-class QueryType extends ObjectType
+class QueryTypeResolve extends ObjectType
 {
     public function __construct()
     {
         $config = [
             'name' => 'Query',
             'fields' => [
-                'hello' => Types::string(),
-                'world' => Types::string(),
-                'viewer' => [
-                    'type' => Types::user(),
+                'hello' => [
+                    'type' => Types::string(),
+                    'resolve' => [$this, 'hello'],
                 ],
-                'user' => [
-                    'type' => Types::user(),
-                    'args' => [
-                        'id' => Type::nonNull(Type::id()),
-                    ],
+                'world' => [
+                    'type' => Types::string(),
+                    'resolve' => [$this, 'world'],
                 ],
             ],
-            'resolveField' => fn ($rootValue, $args, $context, ResolveInfo $info): mixed => $this->{$info->fieldName}($rootValue, $args, $context, $info),
         ];
 
         parent::__construct($config);
