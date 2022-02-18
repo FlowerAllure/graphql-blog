@@ -5,7 +5,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace FlowerAllure\GraphqlLearn\Blog\Type;
+namespace FlowerAllure\GraphqlLearn\Blog\Type\Union;
 
 use Exception;
 use FlowerAllure\GraphqlLearn\Blog\Module\Story;
@@ -30,7 +30,6 @@ class SearchResultType extends UnionType
                 if ($value instanceof User) {
                     return Types::user();
                 }
-
                 throw new Exception('Unknown type: '.get_class($value));
             },
         ];

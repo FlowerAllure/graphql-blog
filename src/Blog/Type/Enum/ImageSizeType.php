@@ -5,7 +5,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace FlowerAllure\GraphqlLearn\Blog\Type;
+namespace FlowerAllure\GraphqlLearn\Blog\Type\Enum;
 
 use FlowerAllure\GraphqlLearn\Blog\Module\Image;
 use GraphQL\Type\Definition\EnumType;

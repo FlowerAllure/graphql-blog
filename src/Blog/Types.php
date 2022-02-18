@@ -8,11 +8,15 @@
 namespace FlowerAllure\GraphqlLearn\Blog;
 
 use Closure;
-use FlowerAllure\GraphqlLearn\Blog\Type\ImageSizeType;
+use FlowerAllure\GraphqlLearn\Blog\Type\CommentType;
+use FlowerAllure\GraphqlLearn\Blog\Type\Enum\ContentFormatType;
+use FlowerAllure\GraphqlLearn\Blog\Type\Enum\ImageSizeType;
+use FlowerAllure\GraphqlLearn\Blog\Type\Enum\StoryAffordancesType;
 use FlowerAllure\GraphqlLearn\Blog\Type\ImageType;
+use FlowerAllure\GraphqlLearn\Blog\Type\Interfaces\NodeType;
 use FlowerAllure\GraphqlLearn\Blog\Type\Scalar\EmailType;
 use FlowerAllure\GraphqlLearn\Blog\Type\Scalar\UrlType;
-use FlowerAllure\GraphqlLearn\Blog\Type\SearchResultType;
+use FlowerAllure\GraphqlLearn\Blog\Type\Union\SearchResultType;
 use FlowerAllure\GraphqlLearn\Blog\Type\StoryType;
 use FlowerAllure\GraphqlLearn\Blog\Type\UserType;
 use GraphQL\Type\Definition\ScalarType;
@@ -55,10 +59,21 @@ final class Types
         return Type::string();
     }
 
+    public static function boolean(): ScalarType
+    {
+        return Type::boolean();
+    }
+
     #[Pure]
     public static function imageSize(): Closure
     {
         return self::get(ImageSizeType::class);
+    }
+
+    #[Pure]
+    public static function contentFormat(): Closure
+    {
+        return self::get(ContentFormatType::class);
     }
 
     #[Pure]
@@ -95,5 +110,23 @@ final class Types
     public static function mention(): Closure
     {
         return self::get(SearchResultType::class);
+    }
+
+    #[Pure]
+    public static function comment(): Closure
+    {
+        return self::get(CommentType::class);
+    }
+
+    #[Pure]
+    public static function node(): Closure
+    {
+        return self::get(NodeType::class);
+    }
+
+    #[Pure]
+    public static function storyAffordances(): callable
+    {
+        return self::get(StoryAffordancesType::class);
     }
 }

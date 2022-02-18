@@ -23,6 +23,7 @@ class UserType extends ObjectType
         $config = [
             'name' => 'User',
             'description' => 'Our blog authors',
+            'interfaces' => [$node = Types::node()],
             'fields' => static fn (): array => [
                 'id' => Types::id(),
                 'email' => Types::email(),
@@ -45,6 +46,7 @@ class UserType extends ObjectType
                     ],
                 ],
                 'lastStoryPosted' => Types::story(),
+                $node()->getField('node')
             ],
             'resolveField' => function ($user, $args, $context, ResolveInfo $info) {
                 $fieldName = $info->fieldName;
